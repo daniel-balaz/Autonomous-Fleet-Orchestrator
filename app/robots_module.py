@@ -37,5 +37,3 @@ class Loader_Robot(Robot):
     def __init__(self, data: Data, cfg: Config) -> None:
         super().__init__(data, cfg)
         self.weight: float = 0
-
-
