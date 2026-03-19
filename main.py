@@ -1,5 +1,6 @@
 import asyncio
 from data_module import Data
+from app.robots_module import Robot
 
 async def main():
     data = Data()
