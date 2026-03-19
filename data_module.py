@@ -5,4 +5,4 @@ class Config:
     ID: str = "ROBOT-DEFAULT"
 
 class Data:
-    cena: int = 100
+    internal_temp: float = 20.0
