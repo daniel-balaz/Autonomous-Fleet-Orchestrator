@@ -5,4 +5,5 @@ class Config:
     ID: str = "ROBOT-DEFAULT"
 
 class Data:
-    cena: int = 100
+# TEMP
+    internal_temp: float = 20.0 # Na základě toho budeme ochlazovat vrták a celkově roboty, cim větší internal_temp tim větší machine temp
