@@ -1,4 +1,5 @@
 from data_module import Data, Config
+import statistics
 
 
 class Robot():
@@ -6,29 +7,43 @@ class Robot():
         self.data = data
         self.cfg = cfg
         self.battery: float = 1.0
-    
+        self.temp: float = self.data.internal_temp
+        self.round: int = 0
+        
+
     def charging(self) -> None:
         pass
+
+    def moving(self) -> None:
+        pass
+
 
 class Drill_Robot(Robot):
     """Tento robot bude simulovat vrtaní do horniny"""
     """--- Robotu se bude zahřívat vrtak a celkove cely robot jak bude vrtat, take při vrtání spotřebuje více baterie než kdyz jenom jede nebo stoji ---"""
 
     def __init__(self, data: Data, cfg: Config) -> None:
-        """Projede jenom na začátku neboli při inicializaci"""
-        """
-        To -> None je tu čistě jenom pro typing, tim říkaš co ta funkce vlastne vrací,tady nevraci nic takže dáme None, 
-        tim zabráníme tomu aby nekdo z nás v budoucnu zkoušel vytahnout z funkce která vrací str například číslo
-        """
         super().__init__(data, cfg)
-        self.drill_temp: float = self.data.internal_temp
+        self.drill_temp: float = 70.0
+        self.temp_cooling_multiplicator: float = 0.1
+        self.temp_heating_multiplicator: float = 0.11
+        self.last_temp_list: list = []
 
-    def vypis_battery_a_id(self) -> tuple[float, str]: # to pak smaž, je to jenom pro ukázku jak typovat funkci co vrací vice věci, ale musi je vracet presne v poradi
-        battery = self.battery
-        id = self.cfg.ID
-        return battery, id
-        # return id, battery # tohle by ti vyhodilo chybu protoze to neni v poradi jake rikas
-        # pokud to chapes tak smaz tuhle funkci
+    def drilling(self) -> None:
+        dif = self.data.internal_temp - self.drill_temp
+        self.drill_temp += dif * self.temp_cooling_multiplicator
+        
+        self.drill_temp += self.drill_temp * self.temp_heating_multiplicator
+        max_temp: int = 250
+
+    def list_temp(self) -> None:
+        self.drill_temp = round(self.drill_temp, 2)
+        self.last_temp_list.append(self.drill_temp)
+        if len(self.last_temp_list) > 10:
+            self.last_temp_list.pop(0)
+        median = statistics.median(self.last_temp_list)
+        print(f"Median {median}")
+    
 
 class Carrier_Robot(Robot):
     def __init__(self, data: Data, cfg: Config) -> None:
