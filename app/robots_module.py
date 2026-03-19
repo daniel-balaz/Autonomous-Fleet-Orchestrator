@@ -6,6 +6,9 @@ class Robot():
         self.data = data
         self.cfg = cfg
         self.battery: float = 1.0
+    
+    def charging(self) -> None:
+        pass
 
 class Drill_Robot(Robot):
     """Tento robot bude simulovat vrtaní do horniny"""
