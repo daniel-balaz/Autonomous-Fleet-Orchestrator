@@ -1,22 +1,25 @@
 import asyncio
-from data_module import Data, Config
-from app.robots_module import Robot, Drill_Robot, Loader_Robot
+from data_module import SharedData, Config, DataLoaderRobot, RobotState
+#from app.robots.drill_robot_module import Drill_Robot
+from app.robots.loader_robot_module import Loader_Robot
+#from app.robots.carrier_robot_module import Carrier_Robot
 
 """Každé kolo bude simulovat 10 min realného běhu, to bude náš interval"""
 
 async def main():
-    data = Data()
+    shared_data = SharedData()
+    loader_robot_data = DataLoaderRobot()
+    loader_robot_state = RobotState(max_battery_capacity=1000, 
+                                    battery_consume_interval=25, 
+                                    current_battery_capacity=1000)
+    
     cfg = Config()
 
-    drill_robot = Drill_Robot(data, cfg)
-    loader_robot = Loader_Robot(data, cfg)
-    while True:
-        drill_robot.drilling()
-        drill_robot.list_temp()
-        loader_robot.transform_weight()
+    #drill_robot = Drill_Robot(shared_data, cfg)
+    loader_robot = Loader_Robot(shared_data, cfg, loader_robot_state, loader_robot_data)
 
-        print(f"Loading Weight: {loader_robot.loading_weight} Kg")
-        print(f"Battery: |{loader_robot.current_battery_capacity}/{loader_robot.max_battery_capacity}| Wh")
+    while True:
+        loader_robot.run()
 
         await asyncio.sleep(1)
 
