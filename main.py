@@ -11,7 +11,7 @@ async def main():
     loader_robot_data = DataLoaderRobot()
     loader_robot_state = RobotState(max_battery_capacity=1000, 
                                     battery_consume_interval=25, 
-                                    current_battery_capacity=1000)
+                                    current_battery=1000)
     
     cfg = Config()
 

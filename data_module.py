@@ -16,8 +16,9 @@ class RobotState:
     """Data co používají všichni roboti"""
     # Battery
     max_battery_capacity: int
-    current_battery_capacity: int
+    current_battery: int
     battery_consume_interval: int
+    battery_consume_multiplier: float = 0
 
     # Temp
     robot_temp: float = 20.0
@@ -29,12 +30,11 @@ class RobotState:
 @dataclass
 class DataLoaderRobot:
     # Config
-    max_weight: float = 25
     min_pos_weight: float = 15
     max_pos_weight: float = 25
 
     # Data
-    loading_weight: float = 0
+
 
 
 @dataclass
