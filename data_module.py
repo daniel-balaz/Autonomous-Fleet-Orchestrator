@@ -6,6 +6,13 @@ class Config:
 
     battery_consume_noice: int = 5
 
+    # BATTERY INFO
+    BATTERY_THRESHOLD_WARNING: float = 0.4
+    BATTERY_THRESHOLD_LOW: float= 0.2
+    BATTERY_THRESHOLD_CRITICAL: float = 0.1
+
+
+
 @dataclass
 class SharedData:
     """Data co zdílí všichni roboti"""
@@ -19,6 +26,8 @@ class RobotState:
     current_battery: int
     battery_consume_interval: int
     battery_consume_multiplier: float = 0
+
+    battery_score: float = 0
 
     # Temp
     robot_temp: float = 20.0

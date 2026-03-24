@@ -15,7 +15,6 @@ class Loader_Robot(Robot):
         print(self.robotstate.current_battery)
         super().run()
         
-
     def transform_weight(self) -> float:
         loading_weight = random.uniform(self.data.min_pos_weight, self.data.max_pos_weight)
         return loading_weight / self.data.max_pos_weight
