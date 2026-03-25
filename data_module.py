@@ -5,6 +5,7 @@ class Config:
     ID: str = "ROBOT-DEFAULT"
 
     battery_consume_noice: int = 5
+    batter_charging_noise: int = 170
 
     # BATTERY INFO
     BATTERY_THRESHOLD_WARNING: float = 0.4
@@ -15,7 +16,7 @@ class Config:
 
 @dataclass
 class SharedData:
-    """Data co zdílí všichni roboti"""
+    """Data co sdílí všichni roboti"""
     internal_temp: float = 20.0
 
 @dataclass
@@ -48,7 +49,7 @@ class DataLoaderRobot:
 
 @dataclass
 class DataDrillRobot:
-    drill_temp: float = 70.0
+    drill_temp: float = 30.0
     max_temp: int = 250
     temp_cooling_multiplicator: float = 0.1
     temp_heating_multiplicator: float = 0.11
