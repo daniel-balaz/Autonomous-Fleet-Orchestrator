@@ -12,7 +12,7 @@ class Robot():
     def run(self) -> None:
         self.robotstate.current_battery = self.perform_task()
         self.do_battery_state()
-        if len(self.robotstate.last_battery_list) > 1: self.robotstate.health_score = self.health_score()
+        if len(self.robotstate.last_battery_list) > 1: self.robotstate.health_score = self.health_score() # Zjistí Health Score pouze pokud jsou v listu alespon 2 promene(jinak to vyhodí chybu pokud jich bude mene)
 
     def charging(self) -> None:
         while self.robotstate.current_battery < self.robotstate.max_battery_capacity:   #nabijej pokud akt_baterie < max_baterie
@@ -22,8 +22,8 @@ class Robot():
         rounds_left = round(self.robotstate.rounds_left)
         diff = self.robotstate.step_diff
         battery = round((self.robotstate.max_battery_capacity / self.robotstate.current_battery), 2) if self.robotstate.current_battery > 0 else 0
-        print((battery * self.cfg.BATTERY_WEIGHT), "+", (diff * self.cfg.DIFF_WEIGHT) ,"-", (rounds_left * self.cfg.ROUNDS_WEIGHT))
-        score = max((battery * self.cfg.BATTERY_WEIGHT) + (diff * self.cfg.DIFF_WEIGHT) - (rounds_left * self.cfg.ROUNDS_WEIGHT), 0)
+        #print((battery * self.cfg.BATTERY_WEIGHT), "+", (diff * self.cfg.DIFF_WEIGHT) ,"-", (rounds_left * self.cfg.ROUNDS_WEIGHT))
+        score = min(max((battery * self.cfg.BATTERY_WEIGHT) + (diff * self.cfg.DIFF_WEIGHT) - (rounds_left * self.cfg.ROUNDS_WEIGHT), 0), 100) if self.robotstate.current_battery > 0 else 100
         return score
 
     def do_battery_state(self) -> None:

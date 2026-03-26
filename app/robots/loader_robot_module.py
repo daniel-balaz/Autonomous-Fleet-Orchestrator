@@ -1,5 +1,5 @@
 from app.robots.robots_module import Robot
-from data_module import SharedData, Config, DataLoaderRobot, RobotState, DataDrillRobot
+from data_module import SharedData, Config, DataLoaderRobot, RobotState
 
 import statistics
 import random
@@ -12,8 +12,8 @@ class Loader_Robot(Robot):
     def run(self) -> None:
         self.robotstate.battery_consume_multiplier = self.transform_weight()
         super().run()
-        print(f"Battery: {self.robotstate.current_battery} | {round((self.robotstate.current_battery / self.robotstate.max_battery_capacity) * 100, 1)}%")
-        print(f"Health Score: {self.robotstate.health_score}")
+        #print(f"Battery: {self.robotstate.current_battery} | {round((self.robotstate.current_battery / self.robotstate.max_battery_capacity) * 100, 1)}%")
+        #print(f"Health Score: {self.robotstate.health_score}")
         
     def transform_weight(self) -> float:
         loading_weight = random.uniform(self.data.min_pos_weight, self.data.max_pos_weight)

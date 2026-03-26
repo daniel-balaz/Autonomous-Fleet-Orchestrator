@@ -25,6 +25,8 @@ class SharedData:
     """Data co sdílí všichni roboti"""
     internal_temp: float = 20.0
 
+    drilled_weight: float = 0.0
+
 @dataclass
 class RobotState:
     """Data co používají všichni roboti"""
@@ -63,6 +65,11 @@ class DataDrillRobot:
     max_temp: int = 250
     temp_cooling_multiplicator: float = 0.1
     temp_heating_multiplicator: float = 0.11
+
+    # Toto jsem přidal - Dan
+    drill_intervals: int = 3 # Kolik intervalů bude vrtat
+    interval_drill_min: int = 15 # Kolik kg za intervam minimalne vytěží
+    interval_drill_max: int = 35 # To same ale s maximem
 
 
 @dataclass
