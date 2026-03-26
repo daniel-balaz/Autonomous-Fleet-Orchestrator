@@ -11,7 +11,7 @@ async def main():
     loader_robot_data = DataLoaderRobot()
     loader_robot_state = RobotState(max_battery_capacity=1300, 
                                     battery_consume_interval=25, 
-                                    current_battery=1000)
+                                    current_battery=300)
     
     cfg = Config()
 
@@ -22,7 +22,7 @@ async def main():
         loader_robot.run()
         print("-" * 20)
 
-        await asyncio.sleep(1)
+        await asyncio.sleep(3)
 
 if __name__ == "__main__":
     asyncio.run(main())

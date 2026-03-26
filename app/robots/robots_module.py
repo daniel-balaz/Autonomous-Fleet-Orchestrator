@@ -19,31 +19,32 @@ class Robot():
             self.robotstate.current_battery += self.cfg.batter_charging_noise
 
     def health_score(self) -> float:
-        rounds_left = self.robotstate.rounds_left
+        rounds_left = round(self.robotstate.rounds_left)
         diff = self.robotstate.step_diff
-        battery = round((self.robotstate.max_battery_capacity / self.robotstate.current_battery) * 100)
-        print((battery * self.cfg.BATTERY_WEIGHT), "+", (diff * self.cfg.DIFF_WEIGHT) ,"-", rounds_left)
-        score = (battery * self.cfg.BATTERY_WEIGHT) + (diff * self.cfg.DIFF_WEIGHT) - rounds_left
+        battery = round((self.robotstate.max_battery_capacity / self.robotstate.current_battery), 2) if self.robotstate.current_battery > 0 else 0
+        print((battery * self.cfg.BATTERY_WEIGHT), "+", (diff * self.cfg.DIFF_WEIGHT) ,"-", (rounds_left * self.cfg.ROUNDS_WEIGHT))
+        score = max((battery * self.cfg.BATTERY_WEIGHT) + (diff * self.cfg.DIFF_WEIGHT) - (rounds_left * self.cfg.ROUNDS_WEIGHT), 0)
         return score
 
     def do_battery_state(self) -> None:
-        # 
+        """Upravuje všechny důležité data o batterce robota"""
         self.robotstate.last_battery_list.append(self.robotstate.current_battery)
         
         if len(self.robotstate.last_battery_list) > 1:
             self.robotstate.step_diff = 0
             battery_diff = self.robotstate.last_battery_list[-2] - self.robotstate.last_battery_list[-1]
-            self.robotstate.last_battery_diff.append(battery_diff)
+            self.robotstate.last_battery_diff.append(battery_diff) # Dostaneme rozdíl mezi spotřebou batterie
+
             if len(self.robotstate.last_battery_diff) > 1: 
                 step_diff = self.robotstate.last_battery_diff[-2] - self.robotstate.last_battery_diff[-1]
-                self.robotstate.step_diff_list.append(step_diff)
-                for diff in self.robotstate.step_diff_list:
+                self.robotstate.step_diff_list.append(step_diff) # Dostaneme list rozdílů mezi rozdíly
+
+                for diff in self.robotstate.step_diff_list: # Spočítáme celkový rozdíl spotřeby
                     self.robotstate.step_diff += diff
     
             median_of_battery_diff = statistics.median(self.robotstate.last_battery_diff)
             self.robotstate.rounds_left = self.robotstate.current_battery / median_of_battery_diff if median_of_battery_diff != 0 else 0
         
-
     def perform_task(self) -> int:
         battery_loss = self.robotstate.battery_consume_interval + random.randint(-self.cfg.battery_consume_noice, self.cfg.battery_consume_noice)
         battery_now = max(round((self.robotstate.current_battery - battery_loss) - (self.cfg.battery_consume_noice * self.robotstate.battery_consume_multiplier)), 0) 

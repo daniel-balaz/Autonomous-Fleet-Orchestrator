@@ -14,8 +14,9 @@ class Config:
     BATTERY_THRESHOLD_LOW: float= 0.2
     BATTERY_THRESHOLD_CRITICAL: float = 0.1
 
-    BATTERY_WEIGHT: float = 0.2
-    DIFF_WEIGHT: float = 2.0
+    BATTERY_WEIGHT: float = 10.0
+    DIFF_WEIGHT: float = 1.5
+    ROUNDS_WEIGHT: float = 0.4
     
 
 
