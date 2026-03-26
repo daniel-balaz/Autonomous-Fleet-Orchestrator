@@ -14,6 +14,11 @@ class Robot():
         self.do_battery_state()
 
     def charging(self) -> None:
+        while self.robotstate.current_battery < self.robotstate.max_battery_capacity:   #nabijej pokud akt_baterie < max_baterie
+            self.robotstate.current_battery += self.cfg.batter_charging_noise
+
+    def do_battery_state(self) -> float:
+        pass
         pass
     def do_battery_state(self) -> None:
         # 
