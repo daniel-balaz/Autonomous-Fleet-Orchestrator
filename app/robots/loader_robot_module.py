@@ -11,8 +11,7 @@ class Loader_Robot(Robot):
 
     def run(self) -> None:
         self.robotstate.battery_consume_multiplier = self.transform_weight()
-        self.robotstate.current_battery = self.perform_task(self.robotstate)
-        print(self.robotstate.current_battery)
+        print(f"Battery: {self.robotstate.current_battery} | {round((self.robotstate.current_battery / self.robotstate.max_battery_capacity) * 100, 1)}%")
         super().run()
         
     def transform_weight(self) -> float:

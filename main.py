@@ -9,7 +9,7 @@ from app.robots.loader_robot_module import Loader_Robot
 async def main():
     shared_data = SharedData()
     loader_robot_data = DataLoaderRobot()
-    loader_robot_state = RobotState(max_battery_capacity=1000, 
+    loader_robot_state = RobotState(max_battery_capacity=1300, 
                                     battery_consume_interval=25, 
                                     current_battery=1000)
     
@@ -20,8 +20,13 @@ async def main():
 
     while True:
         loader_robot.run()
+        print("-" * 20)
 
         await asyncio.sleep(1)
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+
+# To-Do
+    # Přejmenovat promenou v do_battery_state z nazvu step_diff na ...
