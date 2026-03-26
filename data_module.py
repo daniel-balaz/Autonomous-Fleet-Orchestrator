@@ -1,4 +1,6 @@
 from dataclasses import dataclass, field
+from collections import deque
+from typing import Deque
 
 @dataclass(frozen=True)
 class Config:
@@ -10,7 +12,6 @@ class Config:
     BATTERY_THRESHOLD_WARNING: float = 0.4
     BATTERY_THRESHOLD_LOW: float= 0.2
     BATTERY_THRESHOLD_CRITICAL: float = 0.1
-
 
 
 @dataclass
@@ -28,10 +29,11 @@ class RobotState:
     battery_consume_multiplier: float = 0
 
     battery_score: float = 0
-
+    last_battery_list: Deque[int] = field(default_factory=lambda: deque(maxlen=10))
+    last_battery_diff: Deque[int] = field(default_factory=lambda: deque(maxlen=10))
     # Temp
     robot_temp: float = 20.0
-    last_temp_list: list = field(default_factory=list)
+    last_temp_list: Deque[int] = field(default_factory=lambda: deque(maxlen=10))
 
     # Else
     round: int = 0
@@ -43,8 +45,6 @@ class DataLoaderRobot:
     max_pos_weight: float = 25
 
     # Data
-
-
 
 @dataclass
 class DataDrillRobot:
