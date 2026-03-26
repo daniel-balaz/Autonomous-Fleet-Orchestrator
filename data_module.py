@@ -14,6 +14,10 @@ class Config:
     BATTERY_THRESHOLD_LOW: float= 0.2
     BATTERY_THRESHOLD_CRITICAL: float = 0.1
 
+    BATTERY_WEIGHT: float = 0.2
+    DIFF_WEIGHT: float = 2.0
+    
+
 
 @dataclass
 class SharedData:
@@ -35,9 +39,14 @@ class RobotState:
     # Temp
     robot_temp: float = 20.0
     last_temp_list: Deque[int] = field(default_factory=lambda: deque(maxlen=10))
+    step_diff_list: Deque[int] = field(default_factory=lambda: deque(maxlen=10))
+    step_diff: float = 0.0
 
     # Else
     round: int = 0
+    rounds_left: int = 0
+    health_score: int = 0
+
 
 @dataclass
 class DataLoaderRobot:
