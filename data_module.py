@@ -8,6 +8,7 @@ class Config:
 
     battery_consume_noice: int = 5
     batter_charging_noise: int = 170
+    weight_left: float = 5.0
 
     # BATTERY INFO
     BATTERY_THRESHOLD_WARNING: float = 0.4
@@ -18,14 +19,17 @@ class Config:
     DIFF_WEIGHT: float = 1.5
     ROUNDS_WEIGHT: float = 0.4
     
-
-
 @dataclass
 class SharedData:
     """Data co sdílí všichni roboti"""
     internal_temp: float = 20.0
 
     drilled_weight: float = 0.0
+
+    driller_working: bool = False
+    loader_working: bool = False
+    carrier_working: bool = False
+
 
 @dataclass
 class RobotState:
@@ -68,8 +72,8 @@ class DataDrillRobot:
 
     # Toto jsem přidal - Dan
     drill_intervals: int = 3 # Kolik intervalů bude vrtat
-    interval_drill_min: int = 15 # Kolik kg za intervam minimalne vytěží
-    interval_drill_max: int = 35 # To same ale s maximem
+    interval_drill_min: float = 15.0 # Kolik kg za intervam minimalne vytěží
+    interval_drill_max: float = 35.0 # To same ale s maximem
 
 
 @dataclass

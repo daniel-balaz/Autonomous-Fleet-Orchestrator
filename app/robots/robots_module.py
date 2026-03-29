@@ -9,22 +9,21 @@ class Robot():
         self.cfg = cfg
         self.robotstate = robotstate
 
-    def run(self) -> None:
+    async def run(self) -> None:
         self.robotstate.current_battery = self.perform_task()
         self.do_battery_state()
         if len(self.robotstate.last_battery_list) > 1: self.robotstate.health_score = self.health_score() # Zjistí Health Score pouze pokud jsou v listu alespon 2 promene(jinak to vyhodí chybu pokud jich bude mene)
 
     def charging(self) -> None:
-        while self.robotstate.current_battery < self.robotstate.max_battery_capacity:   #nabijej pokud akt_baterie < max_baterie
-            self.robotstate.current_battery += self.cfg.batter_charging_noise
+        self.robotstate.current_battery += 25
 
-    def health_score(self) -> float:
+    def health_score(self) -> int:
         rounds_left = round(self.robotstate.rounds_left)
         diff = self.robotstate.step_diff
         battery = round((self.robotstate.max_battery_capacity / self.robotstate.current_battery), 2) if self.robotstate.current_battery > 0 else 0
         #print((battery * self.cfg.BATTERY_WEIGHT), "+", (diff * self.cfg.DIFF_WEIGHT) ,"-", (rounds_left * self.cfg.ROUNDS_WEIGHT))
         score = min(max((battery * self.cfg.BATTERY_WEIGHT) + (diff * self.cfg.DIFF_WEIGHT) - (rounds_left * self.cfg.ROUNDS_WEIGHT), 0), 100) if self.robotstate.current_battery > 0 else 100
-        return score
+        return int(score)
 
     def do_battery_state(self) -> None:
         """Upravuje všechny důležité data o batterce robota"""
@@ -43,7 +42,7 @@ class Robot():
                     self.robotstate.step_diff += diff
     
             median_of_battery_diff = statistics.median(self.robotstate.last_battery_diff)
-            self.robotstate.rounds_left = self.robotstate.current_battery / median_of_battery_diff if median_of_battery_diff != 0 else 0
+            self.robotstate.rounds_left = int(self.robotstate.current_battery / median_of_battery_diff) if median_of_battery_diff != 0 else 0
         
     def perform_task(self) -> int:
         battery_loss = self.robotstate.battery_consume_interval + random.randint(-self.cfg.battery_consume_noice, self.cfg.battery_consume_noice)
